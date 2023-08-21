@@ -76,6 +76,7 @@ code {
 
 .AddTodo{
   margin-bottom: 1rem;
+  display: flex;
 }
 .AddTodo-submit{
   margin-left:8px;
@@ -83,6 +84,13 @@ code {
   width: 90px;
   border-radius: 8px;
   background: var(--purple-dark, #5E60CE);
+}
+.AddTodo-submit-search{
+  margin-left:8px;
+  height: 49px;
+  width: 90px;
+  border-radius: 8px;
+  background: var(--blue, #4EA8DE);
 }
 .input-add{
   width: 494px;
