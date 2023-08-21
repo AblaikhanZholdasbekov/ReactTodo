@@ -39,7 +39,7 @@ function App() {
       completed: false
     }]));
   }
-   ///git changes
+  ///git changes
   function searchTodoByTitle(title) {
     const results = todos.filter(todo => todo.title.includes(title));
     setSearchResults(results);
@@ -70,7 +70,7 @@ function App() {
       </div>
     </Context.Provider>
   );
-  
+
 }
 
 export default App;

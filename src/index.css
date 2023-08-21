@@ -91,6 +91,7 @@ code {
   width: 90px;
   border-radius: 8px;
   background: var(--blue, #4EA8DE);
+  
 }
 .input-add{
   width: 494px;

@@ -14,11 +14,16 @@ const styles = {
         marginBottom: '.5rem',
         border: '1px solid var(--gray-400, #333)',
         background: 'var(--gray-500, #262626)', 
-        boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.06)'
+        boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.06)',
+        
     },
     input: {
         marginRight: '1rem'
+    }, 
+    span:{
+        color:'white'
     }
+
 }
 
 
@@ -34,7 +39,7 @@ function TodoItem({ todo, index, onChange }) {
  
     return (
         <li style={styles.li}>
-            <span className={classes.join(' ')} >
+            <span className={classes.join(' ')} style={styles.span} >
                 <input type="checkbox"
                     checked={todo.completed}
                     style={styles.input}
