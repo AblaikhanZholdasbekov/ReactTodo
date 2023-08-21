@@ -63,7 +63,7 @@ function App() {
                 onToggle={toggleTodo}
               />
             ) : (
-              <p className="notodo">No todos!</p>
+              <p className="notodo">No todos here!</p>
             )
           )}
         </div>
