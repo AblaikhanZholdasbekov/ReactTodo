@@ -1,71 +1,40 @@
-import React, { useState, useEffect } from "react";
-//import Header from "../Header";
+import React, { useEffect, useState } from "react";
 import TodoList from "./TodoList";
-import Context from "../context";
 import AddTodo from "./AddTodo";
+import { loadTodo, searchTodo } from "../store/todoSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function TodoMain() {
-  const [todos, setTodos] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
+  const dispath = useDispatch();
+  const todos = useSelector((state) => state.todosList.todos);
+  const filteredTodos = useSelector((state) => state.todosList.filteredTodos);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/todos?_limit=4")
       .then((response) => response.json())
-      .then((todos) => {
-        setTimeout(() => {
-          setTodos(todos);
-        }, 1000);
+      .then((data) => {
+        dispath(loadTodo(data));
       });
   }, []);
 
-  function toggleTodo(id) {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) {
-          todo.completed = !todo.completed;
-        }
-        return todo;
-      })
-    );
-  }
-
-  function removeTodo(id) {
-    setTodos(todos.filter((todo) => todo.id !== id));
-    setSearchResults(searchResults.filter((result) => result.id !== id));
-  }
-
-  function addTodo(title) {
-    setTodos(
-      todos.concat([
-        {
-          title,
-          id: Date.now(),
-          completed: false,
-        },
-      ])
-    );
-  }
-  ///git changes
-  function searchTodoByTitle(title) {
-    const results = todos.filter((todo) => todo.title.includes(title));
-    setSearchResults(results);
-  }
+  useEffect(() => {
+    dispath(searchTodo(searchQuery));
+  }, [searchQuery, dispath]);
 
   return (
-    <Context.Provider value={{ removeTodo }}>
-      <div>
-        <div className="wrapper">
-          <AddTodo onCreate={addTodo} onSearch={searchTodoByTitle} />
-          {searchResults.length > 0 ? (
-            <TodoList todos={searchResults} onToggle={toggleTodo} />
-          ) : todos.length > 0 ? (
-            <TodoList todos={todos} onToggle={toggleTodo} />
-          ) : (
-            <p className="notodo">No todos here!</p>
-          )}
-        </div>
+    <div>
+      <div className="wrapper">
+        <AddTodo searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        {filteredTodos.length > 0 ? (
+          <TodoList todos={filteredTodos} />
+        ) : todos.length > 0 ? (
+          <TodoList todos={todos} />
+        ) : (
+          <p className="notodo">No todos here!</p>
+        )}
       </div>
-    </Context.Provider>
+    </div>
   );
 }
 

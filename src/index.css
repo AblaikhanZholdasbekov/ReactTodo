@@ -196,3 +196,6 @@ display: flex;
   width: 90px;
   background: var(--purple-dark,#5e60ce);
 }
+.buttons{
+color: white;
+}

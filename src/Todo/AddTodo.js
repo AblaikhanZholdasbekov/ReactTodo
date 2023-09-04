@@ -1,44 +1,46 @@
-import React, {useEffect, useState}from "react";
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { addTodo } from "../store/todoSlice";
+import { useDispatch } from "react-redux";
 
-  
-function AddTodo({onCreate,onSearch}){
-    const [value,setValue]=useState(' ')
-    
-function submitHandler(event){
-   event.preventDefault()
-    if(value.trim()){
-    onCreate(value)
-    setValue('')
-} 
-}
+function AddTodo({ searchQuery, setSearchQuery }) {
+  const [value, setValue] = useState("");
+  const dispath = useDispatch();
 
-function searchHandler(event) {
+  function submitHandler(event) {
     event.preventDefault();
     if (value.trim()) {
-        onSearch(value);
-        setValue('');
+      dispath(addTodo(value));
+      setValue("");
     }
+  }
+
+  return (
+    <form className="AddTodo" onSubmit={submitHandler}>
+      <div>
+        <input
+          className="input-add"
+          placeholder="Введите текст для добавления задачи"
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+        />
+        <input
+          className="input-add"
+          placeholder="Введите текст для поиска"
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.target.value)}
+        />
+      </div>
+      <button className="AddTodo-submit" type="submit">
+        Add Todo
+      </button>
+    </form>
+  );
 }
 
+AddTodo.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+  setSearchQuery: PropTypes.func.isRequired,
+};
 
-
-
-    return(
-        <form className="AddTodo" onSubmit={submitHandler}> 
-            <input className="input-add" value={value} onChange={event=>setValue(event.target.value)}>
-            </input>
-            <button className="AddTodo-submit" type="submit">Add Todo</button>
-            <button className="AddTodo-submit-search" onClick={searchHandler}>Search Todo</button>
-           
-        </form>
-    )
-}
-
-
-AddTodo.propTypes={
-    onCreate:PropTypes.func.isRequired,
-    onSearch:PropTypes.func.isRequired
-}
-
-export default AddTodo
+export default AddTodo;
